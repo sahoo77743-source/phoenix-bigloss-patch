@@ -53,17 +53,13 @@ BIG_LOSS_REENTRY_SEC = 21600                # 6h after a close worse than -1R
 """
 ),
 (
-"""                if occ.get("strategy") == "CLOSED":
-                    block_sec = SYMBOL_REENTRY_COOLDOWN_SEC
-                if occ.get("strategy") == "INVALIDATED":
-                    block_sec = SYMBOL_INVALIDATION_REENTRY_SEC
+"""                if occ.get("strategy") == "REJECTED":
+                    block_sec = 240
                 if age < block_sec:
                     return False
 """,
-"""                if occ.get("strategy") == "CLOSED":
-                    block_sec = SYMBOL_REENTRY_COOLDOWN_SEC
-                if occ.get("strategy") == "INVALIDATED":
-                    block_sec = SYMBOL_INVALIDATION_REENTRY_SEC
+"""                if occ.get("strategy") == "REJECTED":
+                    block_sec = 240
                 if occ.get("strategy") == "BIG_LOSS":
                     block_sec = BIG_LOSS_REENTRY_SEC
                 if age < block_sec:
@@ -99,13 +95,6 @@ def main():
         return
     shutil.copy2(TARGET, BACKUP)
     text = open(TARGET, encoding="utf-8").read()
-    # The plain clear() lines that sit next to a real close R. Expected 5.
-    plain = REPLACEMENTS[5][0]
-    if text.count(plain) != 5:
-        shutil.copy2(BACKUP, TARGET)
-        print(f"STOPPED plain-clear count={text.count(plain)}")
-        print(f"restored from {BACKUP} — bot file was not changed")
-        return
     for i, (old, new) in enumerate(REPLACEMENTS, 1):
         n = text.count(old)
         expect = 5 if i == 6 else 1
