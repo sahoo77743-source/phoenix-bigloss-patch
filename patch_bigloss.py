@@ -71,9 +71,11 @@ BIG_LOSS_REENTRY_SEC = 21600                # 6h after a close worse than -1R
 """
 ),
 (
-"""                    clear_symbol_occupancy(symbol, force=True)
+"""                    active_trades[self.name].pop(symbol, None)
+                    clear_symbol_occupancy(symbol, force=True)
 """,
-"""                    clear_symbol_occupancy(symbol, force=True, closed_r=closed_r)
+"""                    active_trades[self.name].pop(symbol, None)
+                    clear_symbol_occupancy(symbol, force=True, closed_r=closed_r)
 """
 ),
 (
